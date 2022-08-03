@@ -1,5 +1,5 @@
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OrdinalEncoder
+from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 class SimpleImputerNamed(SimpleImputer):
     from sklearn.impute import SimpleImputer
