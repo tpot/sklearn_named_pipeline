@@ -36,3 +36,37 @@ class ColumnTransformerNamed(ColumnTransformer):
         #print('In fit_transform method')
         fit_transformed = super().fit_transform(X,y)
         return pd.DataFrame(fit_transformed, columns=self.get_feature_names_out())
+    
+
+
+class Identity(TransformerMixin, BaseEstimator):
+    def fit(self, X, y=None):
+        return self
+    def transform(self, X, y=None):
+        return np.array(X)
+class IdentityNamed(Identity):
+    def fit(self, X, y=None):
+        self.feature_names_in_ = list(X.columns)
+        return self
+    def get_feature_names_out(self):
+        return self.feature_names_in_
+    
+class FeatureUnionNamed(FeatureUnion, TransformerMixin):
+    def __init__(self, transformer_list):
+        self.transformers_ = transformer_list
+        super().__init__(transformer_list)
+    def get_feature_names_out(self):
+        names = []
+        for transformer in self.transformers_:
+            names += transformer[1].get_feature_names_out()
+        return names
+    def fit(self, X, y=None):
+        return super().fit(X,y)
+    def transform(self, X):
+        transformed = super().transform(X)
+        return pd.DataFrame(transformed, columns= self.get_feature_names_out())
+    def fit_transform(self, X, y=None):
+        print(X.shape)
+        fit_transformed = super().fit_transform(X,y)
+        return pd.DataFrame(fit_transformed, columns=self.get_feature_names_out())
+    
