@@ -51,7 +51,7 @@ class IdentityNamed(Identity):
     def get_feature_names_out(self):
         return self.feature_names_in_
     
-class FeatureUnionNamed(FeatureUnion, TransformerMixin):
+class FeatureUnionNamed(FeatureUnion):
     def __init__(self, transformer_list):
         self.transformers_ = transformer_list
         super().__init__(transformer_list)
